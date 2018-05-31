@@ -7,13 +7,12 @@ const createToken = (userID) => {
 }
 
 const oauth = (res, token, socialNetwork) => {
-  return res.status(200).json({
+  return res.status(200).header('x-auth', token).json({
     user: {
       name: socialNetwork.name,
       email: socialNetwork.email
     },
-    message: 'Auth Successful',
-    token
+    message: 'Auth Successful'
   });
 }
 
@@ -40,9 +39,8 @@ exports.signUp = async (req, res, next) => {
 
 exports.signIn = async (req, res, next) => {
   const token = await createToken(req.user._id);
-  return res.status(200).json({
-    message: 'Auth successful',
-    token
+  return res.status(200).header('x-auth', token).json({
+    message: 'Auth successful'
   });
 
 }
